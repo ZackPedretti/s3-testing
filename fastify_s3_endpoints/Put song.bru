@@ -1,0 +1,41 @@
+meta {
+  name: Put song
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://localhost:3000/song?artist=Rick Astley&song=Never Gonna Give You Up
+  body: file
+  auth: inherit
+}
+
+params:query {
+  artist: Rick Astley
+  song: Never Gonna Give You Up
+}
+
+body:file {
+  file: @file(/home/pedretti/s3-node/songs/Never Gonna Give You Up.mp3) @contentType(audio/mpeg)
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  Puts a song from the S3 storage instance.
+  
+  The user needs to input these parameters to the query string:
+  - "artist": Artist name
+  - "song": Song name
+  - "ext": File extension (fallback: "mp3"})
+  
+  The body must be a binary file.
+  
+  The S3 query is built like this:
+  - Bucket: artist
+  - Key: {song}.{ext}
+  - Body: POST body
+}
