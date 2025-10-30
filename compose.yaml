@@ -26,6 +26,6 @@ services:
     environment:
       - "MINIO_FASTIFY_USER=${MINIO_FASTIFY_USER}"
       - "MINIO_FASTIFY_PASSWORD=${MINIO_FASTIFY_PASSWORD}"
-      - "MINIO_ENDPOINT=${MINIO_ENDPOINT}"
+      - "MINIO_ENDPOINT=http://minio:9000"
     ports:
       - 3000:3000
