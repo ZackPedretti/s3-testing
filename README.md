@@ -24,7 +24,7 @@ Run the following command to start all services:
 docker compose up -d
 ```
 
-This will start the Fastify API server along with a MinIO instance for local object storage.
+This will start the Fastify and Axum API servers along with a MinIO instance for local object storage.
 
 To run only one API server, you can also run the respective Docker compose file to the service.
 E.g: To run the Fastify API:
