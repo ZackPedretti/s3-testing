@@ -37,10 +37,22 @@ docker compose -f compose-fastify.yaml up -d
 
 Once the containers are running:
 
-1. Open the MinIO Console (typically at [http://localhost:9090](http://localhost:9090)).
-2. Log in with the **root** credentials defined in your `.env` file.
-3. Create a new **Dev user** using the username and password from your `.env` file.
-4. Assign policies or permissions that allow the Fastify user to read and write to the necessary buckets.
+1. Install the MinIO CLI Tool (mc) using this command:
+```bash
+wget https://dl.min.io/client/mc/release/linux-amd64/mc
+```
+2. Assign the executable right to mc by running
+```bash
+chmod +x mc
+```
+3. Create a nez **Dev user** using the username and password from your `.env` file in this command:
+```bash
+./mc minio admin user add minio <username> <password>
+```
+4. Assign policies or permissions that allow the Fastify user to read and write by running this command:
+```bash
+./mc admin policy attach minio readwrite --user <username>
+```
 
 ### 4. Test the endpoints
 
