@@ -30,13 +30,13 @@ async fn main() {
 
 async fn get_song(Query(params): Query<SongParams>) -> impl IntoResponse {
     match s3_connector::get_song(params).await {
-        Ok(..) => StatusCode::OK,
-        Err(..) => StatusCode::INTERNAL_SERVER_ERROR,
+        Ok(..) => StatusCode::OK.into_response(),
+        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
     }
 }
 async fn put_song(Query(params): Query<SongParams>, body: Bytes) -> impl IntoResponse {
     match s3_connector::put_song(params, body).await {
-        Ok(..) => StatusCode::OK,
-        Err(..) => StatusCode::INTERNAL_SERVER_ERROR,
+        Ok(..) => StatusCode::OK.into_response(),
+        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
     }
 }
