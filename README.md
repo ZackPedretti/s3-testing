@@ -31,7 +31,7 @@ This will start the Fastify API server along with a MinIO instance for local obj
 
 Once the containers are running:
 
-1. Open the MinIO Console (typically at [http://localhost:9001](http://localhost:9001)).
+1. Open the MinIO Console (typically at [http://localhost:9090](http://localhost:9090)).
 2. Log in with the **root** credentials defined in your `.env` file.
 3. Create a new **Fastify user** using the username and password from your `.env` file.
 4. Assign policies or permissions that allow the Fastify user to read and write to the necessary buckets.
