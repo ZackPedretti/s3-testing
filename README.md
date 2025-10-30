@@ -45,7 +45,7 @@ wget https://dl.min.io/client/mc/release/linux-amd64/mc
 ```bash
 chmod +x mc
 ```
-3. Create a nez **Dev user** using the username and password from your `.env` file in this command:
+3. Create a new **Dev user** using the username and password from your `.env` file in this command:
 ```bash
 ./mc minio admin user add minio <username> <password>
 ```
