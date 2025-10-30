@@ -16,16 +16,19 @@ services:
       timeout: 10s
       retries: 5
       start_period: 10s
-
-  fastify:
-    image: node:24.11.0-alpine
-    working_dir: /fastify
-    command: ["npm", "run", "start"] 
-    volumes:
-      - ./fastify:/fastify
+  axum:
+    build: axum/
     environment:
+      - "AXUM_LISTENING_PORT=3001"
       - "MINIO_DEV_USER=${MINIO_DEV_USER}"
       - "MINIO_DEV_PASSWORD=${MINIO_DEV_PASSWORD}"
       - "MINIO_ENDPOINT=http://minio:9000"
+    volumes:
+      - cargo-cache:/usr/local/cargo/registry
+      - target-cache:/app/target
     ports:
-      - 3000:3000
+      - 3001:3001
+
+volumes:
+  cargo-cache:
+  target-cache:

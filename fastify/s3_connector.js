@@ -11,8 +11,8 @@ export function initS3Client(){
         region: "us-east-1",
         endpoint: process.env.MINIO_ENDPOINT,
         credentials: {
-            accessKeyId: process.env.MINIO_FASTIFY_USER,
-            secretAccessKey: process.env.MINIO_FASTIFY_PASSWORD,
+            accessKeyId: process.env.MINIO_DEV_USER,
+            secretAccessKey: process.env.MINIO_DEV_PASSWORD,
         },
         forcePathStyle: true,
     });
