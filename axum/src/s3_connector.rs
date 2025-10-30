@@ -1,17 +1,12 @@
+use axum::body::Bytes;
 use std::error::Error;
 
-pub async fn put_song(
-    artist: String,
-    song: String,
-    extension: Option<String>,
-) -> Result<(), Box<dyn Error>> {
+use crate::entities::song_params::SongParams;
+
+pub async fn put_song(params: SongParams, file: Bytes) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-pub async fn get_song(
-    artist: String,
-    song: String,
-    extension: Option<String>,
-) -> Result<Vec<u8>, Box<dyn Error>> {
+pub async fn get_song(params: SongParams) -> Result<Vec<u8>, Box<dyn Error>> {
     Ok(vec![])
 }

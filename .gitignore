@@ -2,3 +2,4 @@ fastify/node_modules
 .env
 songs
 axum/target
+target/*
