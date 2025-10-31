@@ -17,11 +17,18 @@ services:
       retries: 5
       start_period: 10s
   axum:
-    build: axum/
+    build:
+      context: ./axum
+      target: dev
+    volumes:
+      - ./axum/target/debug/axum:/usr/local/bin/axum:ro
+      - /etc/ssl/certs:/etc/ssl/certs:ro
     environment:
-      - "AXUM_LISTENING_PORT=3001"
-      - "MINIO_DEV_USER=${MINIO_DEV_USER}"
-      - "MINIO_DEV_PASSWORD=${MINIO_DEV_PASSWORD}"
-      - "MINIO_ENDPOINT=http://minio:9000"
+      - "AXUM_LISTENING_SOCKET=0.0.0.0:3001"
+      - "AWS_ACCESS_KEY_ID=${MINIO_DEV_USER}"
+      - "AWS_SECRET_ACCESS_KEY=${MINIO_DEV_PASSWORD}"
+      - "AWS_ENDPOINT_URL=http://minio:9000"
+      - "AWS_REGION=us-east-1"
+    command: /usr/local/bin/axum 
     ports:
       - 3001:3001
