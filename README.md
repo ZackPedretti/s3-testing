@@ -33,6 +33,19 @@ E.g: To run the Fastify API:
 docker compose -f compose-fastify.yaml up -d
 ```
 
+#### Launch the Axum API for development
+
+In the `/axum` directory, run the following command to build the executable in dev mode:
+```bash
+cargo build
+```
+At the first build, cargo (the rust compiler) will compile all the code and the dependencies. Afterwards, it will only compile the code outside of the dependencies.
+Then, to start the Docker containers, run this command:
+
+```bash
+docker compose -f compose-axum.yaml up -d
+```
+The development Docker container is organized this way to avoid recompiling all the dependencies every time we need to test the Rust code. In consequence, the build time is much faster.
 ### 3. Configure MinIO
 
 Once the containers are running:
