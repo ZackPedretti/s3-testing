@@ -3,3 +3,4 @@ fastify/node_modules
 songs
 axum/target
 target/*
+mc

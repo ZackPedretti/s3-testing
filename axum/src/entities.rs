@@ -6,7 +6,7 @@ pub struct ApiState {
     pub s3_client: s3::Client,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
 pub struct SongParams {
     pub artist: String,
     pub song: String,

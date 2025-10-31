@@ -1,8 +1,8 @@
 use axum::{
     Router,
     body::Bytes,
-    extract::{Query, State},
-    http::StatusCode,
+    extract::{DefaultBodyLimit, Query, State},
+    http::{Response, StatusCode},
     response::IntoResponse,
     routing::{get, put},
 };
@@ -26,6 +26,7 @@ async fn main() {
     let app: Router<()> = Router::new()
         .route("/", get(|| async { "Hello World!" }))
         .route("/song", put(put_song).get(get_song))
+        .layer(DefaultBodyLimit::max(50 * 1024 * 1024))
         .with_state(api_state);
 
     let listener = tokio::net::TcpListener::bind(
@@ -46,9 +47,28 @@ async fn get_song(
     State(state): State<ApiState>,
     Query(params): Query<SongParams>,
 ) -> impl IntoResponse {
-    match s3_connector::get_song(params, &state.s3_client).await {
-        Ok(..) => StatusCode::OK.into_response(),
-        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
+    match s3_connector::get_song(&params, &state.s3_client).await {
+        Ok(buffer) => {
+            let bytes = Bytes::from(buffer);
+
+            Response::builder()
+                .status(StatusCode::OK)
+                .header("Content-Type", "audio/mpeg")
+                .header(
+                    "Content-Disposition",
+                    format!(
+                        "attachement; filename=\"{}.{}\"",
+                        params.song,
+                        params.extension.unwrap_or(".mp3".to_string())
+                    ),
+                )
+                .body(bytes.into())
+                .unwrap()
+        }
+        Err(e) => {
+            println!("{:?}", e);
+            (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response()
+        }
     }
 }
 async fn put_song(
@@ -56,8 +76,11 @@ async fn put_song(
     Query(params): Query<SongParams>,
     body: Bytes,
 ) -> impl IntoResponse {
-    match s3_connector::put_song(params, body, &state.s3_client).await {
+    match s3_connector::put_song(&params, body, &state.s3_client).await {
         Ok(..) => StatusCode::OK.into_response(),
-        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
+        Err(e) => {
+            println!("{:?}", e);
+            (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response()
+        }
     }
 }
