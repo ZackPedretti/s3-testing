@@ -47,7 +47,7 @@ chmod +x mc
 ```
 3. Create a new **Dev user** using the username and password from your `.env` file in this command:
 ```bash
-./mc minio admin user add minio <username> <password>
+./mc admin user add minio <username> <password>
 ```
 4. Assign policies or permissions that allow the Fastify user to read and write by running this command:
 ```bash
