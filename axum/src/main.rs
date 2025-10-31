@@ -65,10 +65,7 @@ async fn get_song(
                 .body(bytes.into())
                 .unwrap()
         }
-        Err(e) => {
-            println!("{:?}", e);
-            (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response()
-        }
+        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
     }
 }
 async fn put_song(
@@ -78,9 +75,6 @@ async fn put_song(
 ) -> impl IntoResponse {
     match s3_connector::put_song(&params, body, &state.s3_client).await {
         Ok(..) => StatusCode::OK.into_response(),
-        Err(e) => {
-            println!("{:?}", e);
-            (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response()
-        }
+        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
     }
 }
