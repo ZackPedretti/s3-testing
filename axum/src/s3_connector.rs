@@ -18,19 +18,10 @@ pub async fn put_song(
     file: axum::body::Bytes,
     client: &s3::Client,
 ) -> anyhow::Result<()> {
-    let key = format!(
-        "{}/{}.{}",
-        params.artist,
-        params.song,
-        params.extension.clone().unwrap_or("mp3".to_string())
-    );
-
-    println!("Sending file to {}", key);
-
     client
         .put_object()
         .bucket("jukebox")
-        .key(key)
+        .key(params.build_key())
         .body(file.into())
         .send()
         .await?;
@@ -38,19 +29,12 @@ pub async fn put_song(
 }
 
 pub async fn get_song(params: &SongParams, client: &s3::Client) -> anyhow::Result<Vec<u8>> {
-    let key = format!(
-        "{}/{}.{}",
-        params.artist,
-        params.song,
-        params.extension.clone().unwrap_or("mp3".to_string())
-    );
-
     let mut buffer = Vec::new();
 
     let mut object = client
         .get_object()
         .bucket("jukebox")
-        .key(key)
+        .key(params.build_key())
         .send()
         .await?;
 

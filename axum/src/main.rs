@@ -56,11 +56,7 @@ async fn get_song(
                 .header("Content-Type", "audio/mpeg")
                 .header(
                     "Content-Disposition",
-                    format!(
-                        "attachement; filename=\"{}.{}\"",
-                        params.song,
-                        params.extension.unwrap_or(".mp3".to_string())
-                    ),
+                    format!("attachement; filename=\"{}\"", params.build_filename()),
                 )
                 .body(bytes.into())
                 .unwrap()

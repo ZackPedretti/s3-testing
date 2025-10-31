@@ -12,3 +12,22 @@ pub struct SongParams {
     pub song: String,
     pub extension: Option<String>,
 }
+
+impl SongParams {
+    pub fn build_key(&self) -> String {
+        format!(
+            "{}/{}.{}",
+            self.artist,
+            self.song,
+            self.extension.clone().unwrap_or("mp3".to_string())
+        )
+    }
+
+    pub fn build_filename(&self) -> String {
+        format!(
+            "{}.{}",
+            self.song,
+            self.extension.clone().unwrap_or("mp3".to_string())
+        )
+    }
+}
