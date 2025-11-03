@@ -5,11 +5,21 @@ meta {
 }
 
 put {
-  url: http://localhost:3002
-  body: none
+  url: http://localhost:3002/song?artist=Rick Astley&song=Never Gonna Give You Up
+  body: file
   auth: inherit
+}
+
+params:query {
+  artist: Rick Astley
+  song: Never Gonna Give You Up
+}
+
+body:file {
+  file: @file(/home/pedretti/s3-node/songs/Never Gonna Give You Up.mp3) @contentType(audio/mpeg)
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }
