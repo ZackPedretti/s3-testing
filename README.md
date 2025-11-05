@@ -48,6 +48,10 @@ docker compose -f compose-axum.yaml up -d
 The development Docker container is organized this way to avoid recompiling all the dependencies every time we need to test the Rust code. In consequence, the build time is much faster.
 ### 3. Configure MinIO
 
+#### Creating the bucket
+The APIs need a bucket called "Jukebox", which you can create by going to [the MinIO console page](http://localhost:9000).
+
+#### Creating the dev user
 Once the containers are running:
 
 1. Install the MinIO CLI Tool (mc) using this command:
